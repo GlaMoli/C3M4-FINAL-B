@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Movie</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<section>
+  <main class="container">
+    <h1>Agregar Nueva Movie</h1>
+
+   
+
+    <form action="/movies/agregar" method="POST" class="form">
+
+      <!-- Título -->
+      <div class="form-group">
+        <label for="title">Título:</label>
+        <input type="text" name="title" id="title" required minlength="1" maxlength="150" pattern=".*\S.*"
+          title="Debe tener entre 1 y 150 caracteres y no puede estar vacío">
+      </div>
+
+      <!-- Género -->
+      <div class="form-group">
+        <label for="genre">Género(s):</label>
+        <input type="text" name="genre" id="genre" required pattern=".*\S.*"
+          placeholder="Separar por comas (ej: Acción, Drama)"
+          title="Debe incluir al menos un género válido">
+      </div>
+
+      <!-- Director -->
+      <div class="form-group">
+        <label for="director">Director:</label>
+        <input type="text" name="director" id="director" minlength="3" maxlength="90" pattern=".*\S.*"
+          title="Debe tener entre 3 y 90 caracteres si se completa">
+      </div>
+
+      <!-- Cast -->
+      <div class="form-group">
+        <label for="cast">Cast (separar por comas):</label>
+        <input type="text" name="cast" id="cast"
+          title="Cada actor debe tener al menos 2 caracteres si se completa">
+      </div>
+
+      <!-- Año de estreno -->
+      <div class="form-group">
+        <label for="releaseYear">Año de estreno:</label>
+        <input type="number" name="releaseYear" id="releaseYear" required min="1900" max="<%= new Date().getFullYear() %>"
+          title="Debe ser un año válido de 4 dígitos">
+      </div>
+
+      <!-- Duración -->
+      <div class="form-group">
+        <label for="duration">Duración (minutos):</label>
+        <input type="number" name="duration" id="duration" min="60" max="240"
+          title="Si se completa, debe estar entre 60 y 240 minutos">
+      </div>
+
+      <!-- Rating -->
+      <div class="form-group">
+        <label for="rating">Rating (0 a 10):</label>
+        <input type="number" step="0.1" name="rating" id="rating" min="0" max="10"
+          title="Si se completa, debe estar entre 0 y 10">
+      </div>
+
+      <!-- Clasificación -->
+      <div class="form-group">
+        <label for="classification">Clasificación:</label>
+        <select name="classification" id="classification" required>
+          <option value="ATP">ATP</option>
+          <option value="+13">+13</option>
+          <option value="+16">+16</option>
+          <option value="+18">+18</option>
+        </select>
+      </div>
+
+      <!-- Restricción de edad -->
+      <div class="form-group">
+        <label for="ageRestriction">Restricción de edad:</label>
+        <input type="number" name="ageRestriction" id="ageRestriction" min="0" max="18"
+          title="Si se completa, debe ser 0, 13, 16 o 18">
+      </div>
+
+      <!-- Sinopsis -->
+      <div class="form-group">
+        <label for="synopsis">Sinopsis:</label>
+        <textarea name="synopsis" id="synopsis" rows="4" minlength="10" maxlength="1000"
+          title="Si se completa, debe tener entre 10 y 1000 caracteres"></textarea>
+      </div>
+
+      <!-- Poster URL -->
+      <div class="form-group">
+        <label for="posterURL">Poster URL:</label>
+        <input type="url" name="posterURL" id="posterURL"
+          pattern="https?://.+\.(jpg|jpeg|png|webp)$"
+          title="Si se completa, debe ser una URL válida de imagen (jpg, jpeg, png, webp)">
+      </div>
+
+      <!-- Trailer URL -->
+      <div class="form-group">
+        <label for="trailerURL">Trailer URL:</label>
+        <input type="url" name="trailerURL" id="trailerURL"
+          pattern="https?://.*"
+          title="Si se completa, debe ser una URL válida">
+      </div>
+
+      <!-- Idioma -->
+      <div class="form-group">
+        <label for="language">Idioma:</label>
+        <input type="text" name="language" id="language" minlength="2" maxlength="50" pattern=".*\S.*"
+          title="Si se completa, debe tener entre 2 y 50 caracteres">
+      </div>
+
+      <!-- Subtítulos -->
+      <div class="form-group">
+        <label for="subtitles">Subtítulos (separar por comas):</label>
+        <input type="text" name="subtitles" id="subtitles"
+          title="Si se completa, cada subtítulo debe tener al menos 2 caracteres">
+      </div>
+
+      <!-- Idiomas disponibles -->
+      <div class="form-group">
+        <label for="availableLanguages">Idiomas disponibles (separar por comas):</label>
+        <input type="text" name="availableLanguages" id="availableLanguages"
+          title="Si se completa, cada idioma debe tener al menos 2 caracteres">
+      </div>
+
+      <!-- Stream URL -->
+      <div class="form-group">
+        <label for="streamUrl">Stream URL:</label>
+        <input type="url" name="streamUrl" id="streamUrl"
+          pattern="https?://.*"
+          title="Si se completa, debe ser una URL válida para streaming">
+      </div>
+
+      <!-- Download URL -->
+      <div class="form-group">
+        <label for="downloadUrl">Download URL:</label>
+        <input type="url" name="downloadUrl" id="downloadUrl"
+          pattern="https?://.*"
+          title="Si se completa, debe ser una URL válida para descarga">
+      </div>
+
+      <!-- Botones -->
+      <div class="form-actions">
+        <button type="submit" class="btn-agregar ">Agregar Movie</button>
+        <a href="/movies/dashboard" class="btn-cancelar ">Cancelar</a>
+      </div>
+    </form>
+  </main>
+</section>
+</body>
+</html>

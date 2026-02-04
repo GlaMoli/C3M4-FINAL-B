@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+      <meta charset="UTF-8">
+      <title>Registro</title>
+    </head>
+  <main class="container">
+    <body>
+        <h1>Registrarse</h1>
+      <form action="/signup" method="POST">
+        <label for="username">Nombre de usuario</label>
+        <input type="text" id="username" name="username" required>
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" required>
+
+        <label for="role">Rol</label>
+        <select id="role" name="role" required>
+          <option value="owner">Owner</option>
+          <option value="standard">Standard</option>
+          <option value="child">Child</option>
+        </select>
+          <button type="submit" class="btn-Auth">Registrarse</button>
+      </form>
+    </body>
+  </main>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Movie</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<main class="container">
+  <h1>Editar Movie</h1>
+
+  <% if (movie) { %>
+  <form action="/movies/<%= movie._id %>?_method=PUT" method="POST" class="form">
+
+    <!-- Título -->
+    <div class="form-group">
+      <label for="title">Título:</label>
+      <input type="text" name="title" id="title"
+        value="<%= movie.title || '' %>" required minlength="1" maxlength="150" pattern=".*\S.*"
+        title="Debe tener entre 1 y 150 caracteres y no puede estar vacío">
+    </div>
+
+    <!-- Género -->
+    <div class="form-group">
+      <label for="genre">Género(s):</label>
+      <input type="text" name="genre" id="genre"
+        value="<%= Array.isArray(movie.genre) ? movie.genre.join(', ') : movie.genre || '' %>" required
+        title="Debe incluir al menos un género válido">
+    </div>
+
+    <!-- Director -->
+    <div class="form-group">
+      <label for="director">Director:</label>
+      <input type="text" name="director" id="director"
+        value="<%= movie.director || '' %>" minlength="3" maxlength="90" pattern=".*\S.*"
+        title="Debe tener entre 3 y 90 caracteres">
+    </div>
+
+    <!-- Cast -->
+    <div class="form-group">
+      <label for="cast">Cast (separar por comas):</label>
+      <input type="text" name="cast" id="cast"
+        value="<%= Array.isArray(movie.cast) ? movie.cast.join(', ') : movie.cast || '' %>"
+        title="Cada actor debe tener al menos 2 caracteres">
+    </div>
+
+    <!-- Año de estreno -->
+    <div class="form-group">
+      <label for="releaseYear">Año de estreno:</label>
+      <input type="number" name="releaseYear" id="releaseYear"
+        value="<%= movie.releaseYear || '' %>" required min="1900" max="<%= new Date().getFullYear() %>"
+        title="Debe ser un año válido de 4 dígitos">
+    </div>
+
+    <!-- Duración -->
+    <div class="form-group">
+      <label for="duration">Duración (minutos):</label>
+      <input type="number" name="duration" id="duration"
+        value="<%= movie.duration || '' %>" min="60" max="240"
+        title="La duración debe estar entre 60 y 240 minutos">
+    </div>
+
+    <!-- Rating -->
+    <div class="form-group">
+      <label for="rating">Rating (0 a 10):</label>
+      <input type="number" step="0.1" name="rating" id="rating"
+        value="<%= movie.rating || '' %>" min="0" max="10"
+        title="Debe estar entre 0 y 10">
+    </div>
+
+    <!-- Clasificación -->
+    <div class="form-group">
+      <label for="classification">Clasificación:</label>
+      <select name="classification" id="classification" required>
+        <option value="ATP" <%= movie.classification === 'ATP' ? 'selected' : '' %>>ATP</option>
+        <option value="+13" <%= movie.classification === '+13' ? 'selected' : '' %>>+13</option>
+        <option value="+16" <%= movie.classification === '+16' ? 'selected' : '' %>>+16</option>
+        <option value="+18" <%= movie.classification === '+18' ? 'selected' : '' %>>+18</option>
+      </select>
+    </div>
+
+    <!-- Restricción de edad -->
+    <div class="form-group">
+      <label for="ageRestriction">Restricción de edad:</label>
+      <input type="number" name="ageRestriction" id="ageRestriction"
+        value="<%= movie.ageRestriction || 0 %>" min="0" max="18"
+        title="Debe ser 0, 13, 16 o 18">
+    </div>
+
+    <!-- Sinopsis -->
+    <div class="form-group">
+      <label for="synopsis">Sinopsis:</label>
+      <textarea name="synopsis" id="synopsis" rows="4" minlength="10" maxlength="1000"
+        title="Debe tener entre 10 y 1000 caracteres"><%= movie.synopsis || '' %></textarea>
+    </div>
+
+    <!-- Poster URL -->
+    <div class="form-group">
+      <label for="posterURL">Poster URL:</label>
+      <input type="url" name="posterURL" id="posterURL"
+        value="<%= movie.posterURL || '' %>"
+        title="Debe ser una URL válida de imagen (jpg, jpeg, png, webp)">
+    </div>
+
+    <!-- Trailer URL -->
+    <div class="form-group">
+      <label for="trailerURL">Trailer URL:</label>
+      <input type="url" name="trailerURL" id="trailerURL"
+        value="<%= movie.trailerURL || '' %>"
+        title="Debe ser una URL válida">
+    </div>
+
+    <!-- Idioma -->
+    <div class="form-group">
+      <label for="language">Idioma:</label>
+      <input type="text" name="language" id="language"
+        value="<%= movie.language || '' %>" minlength="2" maxlength="50"
+        title="Debe tener entre 2 y 50 caracteres">
+    </div>
+
+    <!-- Subtítulos -->
+    <div class="form-group">
+      <label for="subtitles">Subtítulos (separar por comas):</label>
+      <input type="text" name="subtitles" id="subtitles"
+        value="<%= Array.isArray(movie.subtitles) ? movie.subtitles.join(', ') : movie.subtitles || '' %>"
+        title="Cada subtítulo debe tener al menos 2 caracteres">
+    </div>
+
+    <!-- Idiomas disponibles -->
+    <div class="form-group">
+      <label for="availableLanguages">Idiomas disponibles (separar por comas):</label>
+      <input type="text" name="availableLanguages" id="availableLanguages"
+        value="<%= Array.isArray(movie.availableLanguages) ? movie.availableLanguages.join(', ') : movie.availableLanguages || '' %>"
+        title="Cada idioma debe tener al menos 2 caracteres">
+    </div>
+
+    <!-- Stream URL -->
+    <div class="form-group">
+      <label for="streamUrl">Stream URL:</label>
+      <input type="url" name="streamUrl" id="streamUrl"
+        value="<%= movie.streamUrl || '' %>"
+        title="Debe ser una URL válida para streaming">
+    </div>
+
+    <!-- Download URL -->
+    <div class="form-group">
+      <label for="downloadUrl">Download URL:</label>
+      <input type="url" name="downloadUrl" id="downloadUrl"
+        value="<%= movie.downloadUrl || '' %>"
+        title="Debe ser una URL válida para descarga">
+    </div>
+
+    <!-- Botones -->
+    <div class="form-actions">
+      <button type="submit" class="btn-guardarC">Guardar cambios</button>
+      <a href="/movies/dashboard" class=" btn-cancelar">Cancelar</a>
+    </div>
+  </form>
+</main>
+<% } else { %>
+  <p>No se encontró la película.</p>
+<% } %>
+
+</body>
+</html>

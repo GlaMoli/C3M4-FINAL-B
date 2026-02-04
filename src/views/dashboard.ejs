@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard de Movies</title>
+  <!-- FontAwesome -->
+   <link rel="stylesheet" href="/styles.css">
+  <style>
+    .container.dashboard-container {
+      max-width: 95%; 
+      width: 95%;
+    }
+    .tabla-scroll {
+      overflow-x: auto;
+      margin-top: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      min-width: 1200px;
+    }
+    th, td {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      text-align: left;
+    }
+    th {
+      background-color: #270101;
+      color: white;
+    }
+    img {
+      display: block;
+      margin: 0 auto;
+    }
+    .acciones {
+      display: flex;
+      gap: 8px;
+      flex-direction: column;
+      height: 100%
+    }
+    .acciones a, .acciones button {
+      padding: 6px 10px;
+      cursor: pointer;
+      text-align: center;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+    .editar {
+      background-color: #e0a800;
+    }
+    .editar:hover {
+      background-color: #c69500;
+    }
+    .btn-eliminar {
+      background-color: #dc3545;
+    }
+    .btn-eliminar:hover {
+      background-color: #b52a37;
+    }
+    .pagination a, .pagination span {
+    color: #ffffff !important;   
+    background-color: red;       
+    display: inline-block;       
+}
+  </style>
+</head>
+    <script src="/js/modal.js"></script>
+<body>
+
+  <div class="container dashboard-container">
+    <h1>Lista de Movies</h1>
+
+    <!-- Botón agregar -->
+    <div>
+      <a href="/add">
+        <button class="btn-agregarM">Agregar nueva Movie</button>
+      </a>
+    </div>
+
+    <%if (listaDePeliculas && listaDePeliculas.length > 0) { %>
+        <div class="tabla-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Género</th>
+                <th>Director</th>
+                <th>Cast</th>
+                <th>Año Estreno</th>
+                <th>Duración (min)</th>
+                <th>Rating</th>
+                <th>Clasificación</th>
+                <th>Restricción Edad</th>
+                <th>Sinopsis</th>
+                <th>Poster</th>
+                <th>Trailer</th>
+                <th>Idioma</th>
+                <th>Subtítulos</th>
+                <th>Idiomas disponibles</th>
+                <th>Stream URL</th>
+                <th>Download URL</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% listaDePeliculas.forEach(movie => { %>
+            <tr>
+              <td><%=movie.title %></td>
+              <td><%=movie.genre?.join(', ') || ''%></td>
+              <td><%=movie.director || '' %></td>
+              <td><%=movie.cast?.join(', ') || 'N/A' %></td>
+              <td><%=movie.releaseYear || ''%></td>
+              <td><%=movie.duration || ''%></td>
+              <td><%=movie.rating || ''%></td>
+              <td><%=movie.classification || ''%></td>
+              <td><%=movie.ageRestriction || ''%></td>
+              <td><%=movie.synopsis || ''%></td>
+              <td>
+                  <%- movie.posterURL 
+                  ? `<img src="${movie.posterURL}" alt="Poster de ${movie.title}" width="60">
+                  <a href="${movie.posterURL}" target="_blank">Ver URL</a>` 
+                  : 'N/A' %>
+              </td>
+              <td>
+                  <%- movie.trailerURL 
+                  ? `<a href="${movie.trailerURL}" target="_blank">Ver Trailer</a>` 
+                  : 'N/A' %>
+              </td>
+              <td><%=movie.language || ''%></td>
+              <td><%=movie.subtitles?.join(', ') || 'N/A'%></td>
+              <td><%= movie.availableLanguages?.join(', ') || 'N/A' %></td>
+              <td>
+                  <%- movie.streamUrl 
+                  ? `<a href="${movie.streamUrl}" target="_blank">Ver Stream</a>` 
+                  : 'N/A' %>
+              </td>
+              <td>
+                  <%- movie.downloadUrl 
+                  ? `<a href="${movie.downloadUrl}" target="_blank">Descargar</a>` 
+                  : 'N/A' %>
+              </td>
+              <td>
+                <div class="acciones">
+                <a href="/movies/edit/<%= movie._id %>">
+                  <button class="editar">Editar</button>
+                  </a>
+                <form action="/movies/<%= movie._id %>?_method=DELETE" method="POST"
+                  onsubmit="return confirm('¿Estás segura de que querés eliminar a <%= movie.title %>?');">
+                  <button class="btn-eliminar btn-sm">Eliminar</button>
+                </form>
+                </div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+      <!-- Controles de paginación -->
+        <div class="pagination">
+            <% if (typeof totalPaginas !== 'undefined' && totalPaginas > 1) { %>
+            <% for (let i = 1; i <= totalPaginas; i++) { %>
+            <% if (i == paginaActual) { %>
+            <span><%= i %></span>
+            <% } else { %>
+            <a href="/movies/dashboard?page=<%= i %>&limit=5"><%= i %></a>
+            <% } %>
+            <% } %>
+            <% } %>
+        </div>
+        <div>  
+          <% } else { %>
+          <p>No hay peliculas registradas aún.</p>
+          <% } %>
+        </div>
+  </body>
+</html>
